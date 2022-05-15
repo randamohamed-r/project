@@ -14,29 +14,26 @@ try:
 except:
   print('ERROR')
 
-name=input("Enter name: ")
-price=input("Enter price: ")
-image=input("Enter image: ")
-store_id=input("Enter store_id: ")
 
-@app.route('/', methods =['GET','POST'])
+
+@app.route('/', methods =['POST'])
 def addProduct () :
    data = db.product
-   store={
-      "name":name,
-      "price":price,
-      "image":image,
-      "store_id":store_id
-    }
+
+   req_Json= request.json
+   name=req_Json['name']
+   price=req_Json['price']
+   image=req_Json['image']
+   store_id=req_Json['store_id']
+   
    Filter={"name":name}
    if data.count_documents(Filter):
-    return "This product is already exists. Try another one."
+     return "This product already exists. Try another one."
    else: 
-     data.insert_one(store)
-     return 'Product inserted successfully.'
+      data.insert_one({"name":name, "price":price, "image":image, "store_id":store_id })
+      return 'Product inserted successfully.'
 
    
-  
   
 
 app.run(debug=True)

@@ -5,32 +5,25 @@ from bson import ObjectId, json_util
 from bson.json_util import dumps
 from flask import Flask, render_template, jsonify , Response, request
 
+list = [ ]
 app=Flask(__name__)
 
 try:
   client = MongoClient(host="localhost", port=27017)
-  db = client.Agrosnap 
+  db = client.Agrosnap
   client.server_info()
 except:
   print('ERROR')
 
-#name= input()
+@app.route('/<id>', methods = ['GET'])
+def view(id):
+    data = db.product
 
-@app.route('/', methods=['POST'])
-def signup():
-    data = db.storeOwner
-    req_Json= request.json
-    email=req_Json['email']
-    password=req_Json['password']
-    storeName=req_Json['storeName']
-    return({'response': {email, password , storeName}})
-    
-    #data.insert_one({'name': name})
+    for result in data.find({"store_id":ObjectId(id)},{ 'email':0 , 'contacts':0, 'location':0, 'password':0, 'products':0}):
+      list.append(result)
+    print(list)
+    return json.dumps(list, indent=4, default=json_util.default)
 
-
-
-  
-  
-app.run(debug=True) 
+app.run(debug=True)
  
  

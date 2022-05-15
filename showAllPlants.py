@@ -19,8 +19,7 @@ except:
 def view():
     data = db.plants
 
-    for result in data.find({},{ 'overview':0 , 'soil_characteristics':0, 'best_ways_for_agriculture':0, 'harvest':0, 'agricultural_methods':0, 
-    'growth_factors':0, 'care_about_plants':0, 'seed_extraction':0, 'irrigation':0, 'fertilizers':0, 'scientific classification':0}):
+    for result in data.find({},{ '_id':1 , 'name':1, 'image':1, 'sub_overview':1}):
       list.append(result)
     print(list)
     return json.dumps(list, indent=4, default=json_util.default)

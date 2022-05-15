@@ -15,12 +15,17 @@ try:
 except:
   print('ERROR')
 
-@app.route('/<email>/<password>', methods = ['GET'])
-def login(email,password):
+
+
+@app.route('/', methods = ['GET','POST'])
+def login():
     data = db.storeOwner
-    
-    result = data.find_one({'email':email , 'password':password},{'_id':0})
+    req_Json= request.json
+    email=req_Json['email']
+    password=req_Json['password']
+    result = data.find_one({'email':email , 'password':password},{})
     print(result)
+    
     return json.dumps(result, indent=4, default = json_util.default)
 
 

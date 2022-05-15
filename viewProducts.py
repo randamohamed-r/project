@@ -15,16 +15,15 @@ try:
 except:
   print('ERROR')
 
-@app.route('/<store_id>', methods = ['GET'])
-def view(store_id):
-    data = db.storeOwner
+@app.route('/<id>', methods = ['GET'])
+def view(id):
+    data = db.product
 
-    for result in data.find({'_id':ObjectId(store_id)},{ '_id':0, 'storeName':0,'email':0,'password':0,'contacts':0,'location':0}):
+    for result in data.find({"store_id":ObjectId(id)},{ 'email':0 , 'contacts':0, 'location':0, 'password':0, 'products':0}):
       list.append(result)
     print(list)
-    return json.dumps(list, indent=2, default=json_util.default)
+    return json.dumps(list, indent=4, default=json_util.default)
 
 app.run(debug=True)
-
-
-
+ 
+ 

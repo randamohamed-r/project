@@ -14,25 +14,23 @@ try:
 except:
   print('ERROR')
 
-
-
-Id=input("Enter product ID: ")
-
-storeName=input("Enter storeName: ")
-phone_number=input("Enter phone number: ")
-facebook_link=input("Enter Facebook Link: ")
-another_link=input("Enter another link: ")
-image=input("Enter image: ")
-longtiude=input("Enter longtiude: ")
-latitude=input("Enter latitude: ")
-
-
 @app.route('/', methods =['GET','POST'])
 def edit () :
-   data = db.storeOwner.update_one({"_id":ObjectId(Id)}, 
-   {   "$set": {"storeName":storeName, "contacts":{"phone_number":phone_number, "facebook_link":facebook_link, "another_link":another_link}, "location":{"longtiude":longtiude, "latitude":latitude} }  } )
 
-   return 'Product updated successfully.'
+  req_Json= request.json
+  Id=req_Json['Id']
+  storeName=req_Json['storeName']
+  phone_number=req_Json['phone_number']
+  facebook_link=req_Json['facebook_link']
+  another_link=req_Json['another_link']
+  image=req_Json['image']
+  longtiude=req_Json['longtiude']
+  latitude=req_Json['latitude']
+
+  data = db.storeOwner.update_one({"_id":ObjectId(Id)}, 
+   {   "$set": {"storeName":storeName, "contacts":{"phone_number":phone_number, "facebook_link":facebook_link, "another_link":another_link}, "location":{longtiude:longtiude, latitude:latitude} }  } )
+
+  return 'Product updated successfully.'
 
    
   

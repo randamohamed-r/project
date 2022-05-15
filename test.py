@@ -14,12 +14,33 @@ try:
 except:
   print('ERROR')
 
-@app.route('/<subName>', methods = ['GET'])
-def get_plant(subName):
-  data = db.plants
-  result = data.find_one({'name' })
-  print(result)
-  return json.dumps(result, indent=4, default = json_util.default)
+"""
+email=input("Enter email: ")
+password=input("Enter password: ")
+storeName=input("Enter storeName: ")
+store={
+      "email":email,
+      "password":password,
+      "storeName":storeName
+    }
+""" 
+""" req_Json= request.json
+   email=req_Json['email']
+   password=req_Json['password']
+   storeName=req_Json['storeName']
+"""
+@app.route('/', methods =['POST' , 'GET'])
+def signup () :
+     result = db.storeOnwer.find({location: {'$near':[15,46]}})
 
+     #result = db.storeOwner.find_one({'email': email},{'_id':1})
+     print(result)
+     return json.dumps(result, indent=4, default = json_util.default)
+  
+    
+
+     
+    
+  
 
 app.run(debug=True)

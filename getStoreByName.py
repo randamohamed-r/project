@@ -17,11 +17,11 @@ except:
 @app.route('/', methods = ['GET'])
 def get_plant():
   req_Json= request.json
-  plant_name=req_Json['plant_name']
+  store_name=req_Json['store_name']
+  
+  regex = ".*" + store_name + ".*"
 
-  regex = ".*" + plant_name + ".*"
-
-  for result in db.plants.find( {"name" : {'$regex' : regex, "$options":"i"}} ):
+  for result in db.storeOwner.find( {"storeName" : {'$regex' : regex, "$options":"i"}} ):
       list.append(result)
   print(list)
   return json.dumps(list, indent=4, default = json_util.default)

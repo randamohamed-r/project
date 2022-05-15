@@ -14,28 +14,29 @@ try:
 except:
   print('ERROR')
 
-"""
-email=input("Enter email: ")
-password=input("Enter password: ")
-storeName=input("Enter storeName: ")
-store={
-      "email":email,
-      "password":password,
-      "storeName":storeName
-    }
-"""
-@app.route('/', methods =['POST'])
+
+@app.route('/', methods =['POST' , 'GET'])
 def signup () :
    #data = db.storeOwner
    
    req_Json= request.json
-   name=req_Json['name']
-   return jsonify({'response', name})
-   
-   
+   email=req_Json['email']
+   password=req_Json['password']
+   storeName=req_Json['storeName']
 
-   
+   Filter = {"email":email}
+   if db.storeOwner.count_documents(Filter):
+     return("Thsi email already has an store. Try another one.")
+   else:
+     db.storeOwner.insert_one({"email": email, "password": password, "storeName": storeName})
+     result = db.storeOwner.find_one({'email': email},{'_id':1})
+     print(result)
+     return json.dumps(result, indent=4, default = json_util.default)
   
+    
+
+     
+    
   
 
 app.run(debug=True)

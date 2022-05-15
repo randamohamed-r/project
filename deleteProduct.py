@@ -18,5 +18,5 @@ except:
 @app.route('/<id>', methods = ['GET'])
 def delete(id):
     data = db.product.delete_one({'_id':ObjectId(id)})
-    return 'Done'
+    return 'Product deleted successfully.'
 app.run(debug=True)
